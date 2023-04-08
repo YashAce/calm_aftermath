@@ -8,7 +8,7 @@ getMovies.get('/movies', async (req, res) => {
     try {
         const cursor = parseInt(req.query.cursor) || 0;
         const count = parseInt(req.query.count) || 10;
-        const sortBy = req.query.sort_by || 'release_date';
+        const sortBy = req.query.sort_by || 'vote_average';
         const sortDirection = req.query.sort_direction || 'asc';
         const page = parseInt(req.query.page) || 1;
         let url;
