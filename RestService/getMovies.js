@@ -1,9 +1,7 @@
-const express = require('express')
-const getMovies = express()
 const axios = require('axios');
 require('dotenv').config()
 
-getMovies.get('/movies', async (req, res) => {
+const getMovies = async (req, res) => {
     let movieList = []
     try {
         const cursor = parseInt(req.query.cursor) || 0;
@@ -13,7 +11,7 @@ getMovies.get('/movies', async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         let url;
         if(page){
-            url = `https://api.themoviedb.org/4/list/1?api_key=${process.env.API_KEY}&page=${page}`
+          url = `https://api.themoviedb.org/4/list/1?api_key=${process.env.API_KEY}&page=${page}`
         const response = await axios.get(url)
         movieList = response.data.results
         const results = movieList.slice(cursor, cursor + count);
@@ -35,6 +33,13 @@ getMovies.get('/movies', async (req, res) => {
         res.json(Movies);
         }else{
             const results = movieList.slice(cursor, cursor + count);
+            results.sort((a, b) => {
+              if (sortDirection === 'asc') {
+                return a[sortBy] - b[sortBy];
+              } else {
+                return b[sortBy] - a[sortBy];
+              }
+          });
             const Movies = {
                 movies: results,
                 next_cursor: cursor + count < movieList.length ? cursor + count : null,
@@ -47,6 +52,6 @@ getMovies.get('/movies', async (req, res) => {
     } catch (error) {
       console.error(error)
     }
-  })
-getMovies.listen(process.env.PORT)
-console.log('Now Server is running on the port:',process.env.PORT);
+}
+
+module.exports = getMovies;
