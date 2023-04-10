@@ -6,27 +6,27 @@ const getMovies = async (req, res) => {
   if (req.query.id) {
     url = `https://api.themoviedb.org/3/movie/${req.query.id}?api_key=${process.env.API_KEY}`;
     const response = await axios.get(url);
-    res.json(response.data);
+    return res.json(response.data);
   } else {
     let movieList = [];
     try {
       const cursor = parseInt(req.query.cursor, 10) || 0;
       const count = parseInt(req.query.count, 10) || 10;
-      const sortBy = req.query.sort_by || 'vote_average';
-      const sortDirection = req.query.sort_direction || 'asc';
+      const sortBy = 'vote_average.desc';
+      const language = req.query.language || "en-US";
       const page = parseInt(req.query.page, 10) || 1;
+      const releaseYear = parseInt(req.query.releaseyear)
       if (page) {
-        url = `https://api.themoviedb.org/4/list/1?api_key=${process.env.API_KEY}&page=${page}`;
+          url = `https://api.themoviedb.org/4/list/1?api_key=${process.env.API_KEY}&page=${page}&sort_by=${sortBy}&language=${language}`;
         const response = await axios.get(url);
         movieList = response.data.results;
+        if (releaseYear) {
+          movieList = movieList.filter(movie => {
+            const releaseDate = new Date(movie.release_date);
+            return releaseDate.getFullYear() === releaseYear;
+          });
+        }
         const results = movieList.slice(cursor, cursor + count);
-
-        results.sort((a, b) => {
-          if (sortDirection === 'asc') {
-            return a[sortBy] - b[sortBy];
-          }
-          return b[sortBy] - a[sortBy];
-        });
 
         const Movies = {
           movies: results,
@@ -34,22 +34,15 @@ const getMovies = async (req, res) => {
         };
         console.log('Movies:', Movies);
 
-        res.json(Movies);
+        return res.json(Movies);
       } else {
         const results = movieList.slice(cursor, cursor + count);
-        results.sort((a, b) => {
-          if (sortDirection === 'asc') {
-            return a[sortBy] - b[sortBy];
-          }
-          return b[sortBy] - a[sortBy];
-        });
         const Movies = {
           movies: results,
           next_cursor: cursor + count < movieList.length ? cursor + count : null,
         };
-
-        res.json(Movies);
         console.log('Movies:', Movies);
+        return res.json(Movies);
       }
     } catch (error) {
       console.error(error);

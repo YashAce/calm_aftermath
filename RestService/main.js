@@ -3,14 +3,17 @@ const express = require('express');
 const service = express();
 const getMovies = require('./getMovies');
 const WatchlistEdit = require('./watchlistEdit');
+const cors = require('cors');
 require('dotenv').config();
+
+service.use(cors());
 
 const watchlistEditor = new WatchlistEdit();
 
 service.get('/movies', async (req, res) => {
   try {
     const movies = await getMovies(req, res);
-    res.json(movies);
+    return movies;
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
