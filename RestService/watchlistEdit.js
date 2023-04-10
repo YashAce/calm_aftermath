@@ -48,9 +48,15 @@ class watchlistEdit {
         const id = req.query.id
         try {
             const movie = await WatchlistSchema.findById(id);
-            const updatedWatchedValue = !movie.watched;
-            const updatewatchlistmovie = await WatchlistSchema.findByIdAndUpdate(id, { watched : updatedWatchedValue });
-            res.status(200).send(updatewatchlistmovie);
+            if (movie) {
+                const updatedWatchedValue = !movie.watched;
+                const updatewatchlistmovie = await WatchlistSchema.findByIdAndUpdate(id, { watched : updatedWatchedValue });
+                res.status(200).send(updatewatchlistmovie);            
+            }else{
+                res.status(404).send("Movie not found");
+            }
+            
+            
         } catch (err) {
             console.error(err);
             res.status(500).send('Error updating watchlist movie.');

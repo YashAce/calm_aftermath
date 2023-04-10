@@ -1,10 +1,11 @@
-const express = require('express')
-const service = express()
-const getMovies = require('./getMovies');
-const watchlistEdit = require('./wathclistEdit')
-require('dotenv').config()
+const express = require('express');
 
-const watchlistEditor = new watchlistEdit();
+const service = express();
+const getMovies = require('./getMovies');
+const WatchlistEdit = require('./watchlistEdit');
+require('dotenv').config();
+
+const watchlistEditor = new WatchlistEdit();
 
 service.get('/movies', async (req, res) => {
   try {
@@ -15,7 +16,6 @@ service.get('/movies', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
 
 service.post('/addmovie', async (req, res) => {
   try {
@@ -57,6 +57,5 @@ service.delete('/deletewatchlistmovie', async (req, res) => {
   }
 });
 
-
-service.listen(process.env.PORT)
-console.log('Now Server is running on the port:',process.env.PORT);
+service.listen(process.env.PORT);
+console.log('Now Server is running on the port:', process.env.PORT);
