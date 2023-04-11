@@ -3,6 +3,7 @@ import './App.css';
 import Header from './Header';
 import TileView from './Tile';
 import Watchlist from './Watchlist';
+import Detail from './Detail';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -15,7 +16,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<TileView />}/>
-        <Route path="/watchlist" element={<Watchlist />}>
+        <Route path="/detail" element={<Detail />}/>
+        <Route path="/watchlist" element={<Watchlist />}>        
         </Route>
       </Routes>
     </BrowserRouter>

@@ -91,6 +91,7 @@ const handleRemove = (item) => {
             <p style={{ color: 'white' }}>({item.release_date})</p>
             <button onClick={() => handleUpdate(item)} style={{backgroundColor: 'Yellow', color: 'black', borderRadius: '5px' }}>{item.watched ? 'Watched' : 'Mark as watched'}</button>
             <button onClick={() => handleRemove(item)} style={{backgroundColor: 'Red', color: 'white', borderRadius: '5px' }}>Remove from watchlist</button>
+            <button onClick={() => window.location.href=`/detail?id=${item.id}`} style={{  backgroundColor: 'orange', color: 'white', borderRadius: '5px' }}>Details</button>
           </div>
         ))}
       </div>

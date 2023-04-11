@@ -98,6 +98,7 @@ const TileView = (data) => {
         <p style={{ color: 'white' }}>{item.overview}</p>
         <p style={{ color: 'white' }}>({item.release_date})</p>
         <button onClick={() => handleAddToWatchlist(item)} style={{backgroundColor: 'green', color: 'white', borderRadius: '5px' }}>Add to watchlist</button>
+        <button onClick={() => window.location.href=`/detail?id=${item.id}`} style={{  backgroundColor: 'orange', color: 'white', borderRadius: '5px' }}>Details</button>
 
       </div>
     ))}
