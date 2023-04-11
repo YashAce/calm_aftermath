@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
+import baseURL from './config';
 
 const Watchlist = (data) => {
   console.log(data)
@@ -16,7 +17,7 @@ const Watchlist = (data) => {
     let config = {
       method: 'patch',
       maxBodyLength: Infinity,
-      url: `http://localhost:3001/updatewatchlistmovie?id=${item._id}`,
+      url: `${baseURL}/updatewatchlistmovie?id=${item._id}`,
       headers: { }
     };
 
@@ -35,7 +36,7 @@ const handleRemove = (item) => {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: `http://localhost:3001/deletewatchlistmovie?id=${item._id}`,
+      url: `${baseURL}/deletewatchlistmovie?id=${item._id}`,
       headers: { }
     };
 
@@ -56,7 +57,7 @@ const handleRemove = (item) => {
         let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: `http://localhost:3001/getwatchlistmovies`,
+          url: `${baseURL}/getwatchlistmovies`,
         };
     
         axios.request(config)

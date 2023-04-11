@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import store from './store';
 import axios from 'axios'
+import baseURL from './config';
 
 const TileView = (data) => {
   console.log(data)
@@ -31,7 +32,7 @@ const TileView = (data) => {
         let config = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'http://localhost:3001/addmovie',
+          url: `${baseURL}/addmovie`,
           headers: { 
             'Content-Type': 'application/json'
           },
@@ -58,7 +59,7 @@ const TileView = (data) => {
         let config = {
           method: 'get',
           maxBodyLength: Infinity,
-          url: `http://localhost:3001/movies?language=${reduxData.language}&releaseyear=${reduxData.year}&count=${reduxData.count}&page=${page}&cursor=${cursor}`,
+          url: `${baseURL}/movies?language=${reduxData.language}&releaseyear=${reduxData.year}&count=${reduxData.count}&page=${page}&cursor=${cursor}`,
         };
     
         axios.request(config)
