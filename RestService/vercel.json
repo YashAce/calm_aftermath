@@ -2,12 +2,12 @@
     "versio":2,
     "builds": [
         {
-        "src": "*.js", "use": "@vercel/node"
+        "src": "*.js", "use": "@now/node"
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/"
+            "dest": "main.js"
         }
     ]
  } 
