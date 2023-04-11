@@ -23,40 +23,36 @@ service.get('/movies', async (req, res) => {
 service.post('/addmovie', async (req, res) => {
   try {
     const addMovie = await watchlistEditor.addMovie(req, res);
-    res.json(addMovie);
+    return addMovie;
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
   }
 });
 
 service.get('/getwatchlistmovies', async (req, res) => {
   try {
     const getAllMovies = await watchlistEditor.getWatchlistMovies(req, res);
-    res.json(getAllMovies);
+    return getAllMovies;
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
   }
 });
 
 service.patch('/updatewatchlistmovie', async (req, res) => {
   try {
     const updateWatchlistMovie = await watchlistEditor.updateWatchlistMovie(req, res);
-    res.json(updateWatchlistMovie);
+    return updateWatchlistMovie;
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
   }
 });
 
 service.delete('/deletewatchlistmovie', async (req, res) => {
   try {
     const deleteWatchlistMovie = await watchlistEditor.deleteWatchlistMovie(req, res);
-    res.json(deleteWatchlistMovie);
+    return deleteWatchlistMovie;
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
   }
 });
 

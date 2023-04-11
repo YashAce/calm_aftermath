@@ -14,21 +14,27 @@ class watchlistEdit {
     
     addMovie = async (req, res) => {
         try {
+            
             let rawData = '';
            await req.on('data', (chunk) => {
               rawData += chunk;
             });
             const movieData = JSON.parse(rawData);
-            const movie = new WatchlistSchema(movieData);
-
-            const insertMovie = await movie.save();
-            console.log(insertMovie)
-            console.log('Movie added to watchlist');
-            res.status(200).send('Movie added to watchlist!');
+            const movieCheck = await WatchlistSchema.find({id : movieData.id});
+            console.log(movieCheck)
+            if(movieCheck.length === 0){
+                const movie = new WatchlistSchema(movieData);
+                const insertMovie = await movie.save();
+                console.log(insertMovie)
+                console.log('Movie added to watchlist');
+                return res.status(200).send('Movie added to watchlist!');
+            }else{
+                return res.status(200).send('Already added to the watchlist!');
+            }
 
         } catch (err) {
             console.error(err);
-            res.status(500).send('Error adding movie to watchlist.');
+            return res.status(500).send('Error adding movie to watchlist.');
         }
     }
 
@@ -37,10 +43,10 @@ class watchlistEdit {
             const watchlistmovies = await WatchlistSchema.find({});
             console.log("Found the following records");
             console.log(watchlistmovies.length);
-            res.status(200).send(watchlistmovies);
+            return res.status(200).send(watchlistmovies);
         } catch (err) {
             console.error(err);
-            res.status(500).send('Error getting watchlist movies.');
+            return res.status(500).send('Error getting watchlist movies.');
         }
     }
 
@@ -51,15 +57,15 @@ class watchlistEdit {
             if (movie) {
                 const updatedWatchedValue = !movie.watched;
                 const updatewatchlistmovie = await WatchlistSchema.findByIdAndUpdate(id, { watched : updatedWatchedValue });
-                res.status(200).send(updatewatchlistmovie);            
+                return res.status(200).send(updatewatchlistmovie);            
             }else{
-                res.status(404).send("Movie not found");
+                return res.status(404).send("Movie not found");
             }
             
             
         } catch (err) {
             console.error(err);
-            res.status(500).send('Error updating watchlist movie.');
+            return res.status(500).send('Error updating watchlist movie.');
         }
     }   
 
@@ -71,14 +77,14 @@ class watchlistEdit {
             if(movie){
                 const deletemovie = await WatchlistSchema.findByIdAndDelete(id);
                 console.log(deletemovie)
-                res.status(200).send("Deleted successfully");
+                return res.status(200).send("Deleted successfully");
             }else{
-                res.status(404).send("Movie not found");
+                return res.status(404).send("Movie not found");
             }
             
         } catch (err) {
             console.error(err);
-            res.status(500).send('Error deleting watchlist movie.');
+            return res.status(500).send('Error deleting watchlist movie.');
         }
     }   
     

@@ -4,8 +4,7 @@ import count from './count.json';
 import store from './store';
 import { setYear, setLanguage, setCount } from './action';
 
-
-const Dropdown = () => {
+const Header = () => {
 
   let selectedLanguage;
   const handleLanguageChange = (e) => {
@@ -41,7 +40,7 @@ const Dropdown = () => {
           value={selectedLanguage}
           onChange={handleLanguageChange}
           style={{
-            width: '30%',
+            width: '20%',
             height: '40px',
             borderRadius: '5px',
             padding: '5px'
@@ -60,7 +59,7 @@ const Dropdown = () => {
           value={selectedYear}
           onChange={handleYearChange}
           style={{
-            width: '30%',
+            width: '20%',
             height: '40px',
             borderRadius: '5px',
             padding: '5px',
@@ -80,7 +79,7 @@ const Dropdown = () => {
           value={selectedCount}
           onChange={handleCountChange}
           style={{
-            width: '30%',
+            width: '20%',
             height: '40px',
             borderRadius: '5px',
             padding: '5px',
@@ -94,12 +93,11 @@ const Dropdown = () => {
             </option>
           ))}
         </select>
+        <button onClick={handleSearch} style={{ marginLeft: '10px', padding: '10px 20px', backgroundColor: 'blue', color: 'white', borderRadius: '5px' }}>Search</button>
+        <button onClick={() => window.location.href='/watchlist'} style={{ marginLeft: '170px', padding: '10px 20px', backgroundColor: 'green', color: 'white', borderRadius: '5px' }}>Go to watchlist</button>
       </div>
-      <div style={{ position: 'fixed', top: '0', right: '0'}}>
-        <button onClick={handleSearch} style={{ padding: '10px 20px', backgroundColor: 'blue', color: 'white', borderRadius: '5px' }}>Search</button>
-    </div>
     </>
   );
 };
 
-export default Dropdown;
+export default Header;

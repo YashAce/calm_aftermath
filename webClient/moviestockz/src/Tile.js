@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import store from './store';
-import { setMovies } from './action';
 import axios from 'axios'
 
 const TileView = (data) => {
@@ -27,9 +26,35 @@ const TileView = (data) => {
     fetchMoreData();
   }, []);
 
-  const fetchMoreData = () => {
-    console.log("111111111111", reduxData);
+  const handleAddToWatchlist = (item) => {
+        let data = item
+        let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: 'http://localhost:3001/addmovie',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          data : data
+        };
 
+        axios.request(config)
+        .then((response) => {
+
+          console.log("JSON.stringify(response.data)", response);
+          if(response.data !== 'Already added to the watchlist!'){
+            alert(`${item.original_title} added to watchlist!`);
+          }else{
+            alert(`${item.original_title} is already in watchlist!`)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+  }
+
+  const fetchMoreData = () => {
         let config = {
           method: 'get',
           maxBodyLength: Infinity,
@@ -39,7 +64,6 @@ const TileView = (data) => {
         axios.request(config)
           .then((response) => {
             if(response.data.movies.length !== 0){
-                console.log("cameeeeeeeeeee",response.data.movies)
                 setItems([...items, ...response.data.movies]);
                 if(response.data.next_cursor){
                     setCursor(response.data.next_cursor)
@@ -47,7 +71,6 @@ const TileView = (data) => {
                     setPage(page + 1)
                 }
             }else{
-              console.log("overrrrrrrrr")
                 setHasMore(false)
             }
             
@@ -65,15 +88,15 @@ const TileView = (data) => {
       loader={hasMore ? <h4>Loading...</h4> : null}
       endMessage={!hasMore ? <h4>No more items</h4> : null}
     >
-      <div className="tile-view">
+      <div className="tile-view" style={{ marginTop:'24px', border: '5px solid black', backgroundColor: 'white', padding: '10px' }}>
         {items.map(item => (
-          <div key={item.id} className="tile">
-            {/* <img src={item.image} alt={item.title} /> */}
-            <h3>{item.original_title}</h3>
-            <p>{item.vote_average}</p>
-            <p>{item.overview}</p>
-            <p>{item.release_date}</p>
-
+          <div key={item.id} className="tile" style={{ border: '1px solid white', backgroundColor: 'black', padding: '10px' }}>
+            <img   style={{ display: 'block', margin: 'auto' }} src={"https://image.tmdb.org/t/p/w500"+item.backdrop_path} alt={item.title} />
+            <h3 style={{ color: 'white' }}>{item.original_title}</h3>
+            <p style={{ color: 'red' }}>{item.vote_average}</p>
+            <p style={{ color: 'white' }}>{item.overview}</p>
+            <p style={{ color: 'white' }}>({item.release_date})</p>
+            <button onClick={() => handleAddToWatchlist(item)} style={{backgroundColor: 'green', color: 'white', borderRadius: '5px' }}>Add to watchlist</button>
 
           </div>
         ))}
