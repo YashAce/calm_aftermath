@@ -12,8 +12,8 @@ const getMovies = async (req, res) => {
     try {
       const cursor = parseInt(req.query.cursor, 10) || 0;
       const count = parseInt(req.query.count, 10) || 10;
-      const language = req.query.language || "en-US";
-      const page = parseInt(req.query.page, 10) || 1;
+      const language = req.query.language;
+      const page = parseInt(req.query.page, 10);
       const releaseYear = parseInt(req.query.releaseyear)
       const sortBy = (language || page || releaseYear) ? null : 'vote_average.desc';
 
