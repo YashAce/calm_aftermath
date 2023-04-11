@@ -1,3 +1,3 @@
-const baseURL = 'http://localhost:3001'
+const baseURL = 'https://calm-aftermath.vercel.app'
 
 export default baseURL;
