@@ -90,17 +90,17 @@ const TileView = (data) => {
       endMessage={!hasMore ? <h4>No more items</h4> : null}
     >
       <div className="tile-view" style={{ marginTop:'24px', border: '5px solid black', backgroundColor: 'white', padding: '10px' }}>
-        {items.map(item => (
-          <div key={item.id} className="tile" style={{ border: '1px solid white', backgroundColor: 'black', padding: '10px' }}>
-            <img   style={{ display: 'block', margin: 'auto' }} src={"https://image.tmdb.org/t/p/w500"+item.backdrop_path} alt={item.title} />
-            <h3 style={{ color: 'white' }}>{item.original_title}</h3>
-            <p style={{ color: 'red' }}>{item.vote_average}</p>
-            <p style={{ color: 'white' }}>{item.overview}</p>
-            <p style={{ color: 'white' }}>({item.release_date})</p>
-            <button onClick={() => handleAddToWatchlist(item)} style={{backgroundColor: 'green', color: 'white', borderRadius: '5px' }}>Add to watchlist</button>
+        {items.filter(item => item.overview).map(item => (
+      <div key={item.id} className="tile" style={{ border: '1px solid white', backgroundColor: 'black', padding: '10px' }}>
+        <img   style={{ display: 'block', margin: 'auto' }} src={"https://image.tmdb.org/t/p/w500"+item.backdrop_path} alt={item.title} />
+        <h3 style={{ color: 'white' }}>{item.original_title}</h3>
+        <p style={{ color: 'red' }}>{item.vote_average}</p>
+        <p style={{ color: 'white' }}>{item.overview}</p>
+        <p style={{ color: 'white' }}>({item.release_date})</p>
+        <button onClick={() => handleAddToWatchlist(item)} style={{backgroundColor: 'green', color: 'white', borderRadius: '5px' }}>Add to watchlist</button>
 
-          </div>
-        ))}
+      </div>
+    ))}
       </div>
     </InfiniteScroll>
   );

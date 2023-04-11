@@ -15,7 +15,7 @@ const getMovies = async (req, res) => {
       const language = req.query.language;
       const page = parseInt(req.query.page, 10);
       const releaseYear = parseInt(req.query.releaseyear)
-      const sortBy = (language || page || releaseYear) ? null : 'vote_average.desc';
+      const sortBy = 'vote_average.desc';
 
       if (page) {
           url = `https://api.themoviedb.org/4/list/1?api_key=${process.env.API_KEY}&page=${page}&sort_by=${sortBy}&language=${language}`;
