@@ -12,10 +12,11 @@ const getMovies = async (req, res) => {
     try {
       const cursor = parseInt(req.query.cursor, 10) || 0;
       const count = parseInt(req.query.count, 10) || 10;
-      const sortBy = 'vote_average.desc';
       const language = req.query.language || "en-US";
       const page = parseInt(req.query.page, 10) || 1;
       const releaseYear = parseInt(req.query.releaseyear)
+      const sortBy = (language || page || releaseYear) ? null : 'vote_average.desc';
+
       if (page) {
           url = `https://api.themoviedb.org/4/list/1?api_key=${process.env.API_KEY}&page=${page}&sort_by=${sortBy}&language=${language}`;
         const response = await axios.get(url);
